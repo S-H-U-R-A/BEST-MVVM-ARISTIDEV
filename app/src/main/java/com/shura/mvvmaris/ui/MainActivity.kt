@@ -1,4 +1,4 @@
-package com.shura.ui
+package com.shura.mvvmaris.ui
 
 import android.content.Intent
 import android.os.Bundle

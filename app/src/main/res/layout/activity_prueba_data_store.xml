@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:padding="16dp"
-tools:context="com.shura.ui.PruebaDataStore">
+tools:context=".ui.PruebaDataStore">
 
 <com.google.android.material.textview.MaterialTextView
     android:id="@+id/mtv_show_name"

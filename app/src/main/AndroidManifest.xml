@@ -14,10 +14,10 @@
         android:theme="@style/Theme.Mvvmaris"
         tools:targetApi="31">
         <activity
-            android:name="com.shura.ui.PruebaDataStore"
+            android:name=".ui.PruebaDataStore"
             android:exported="false" />
         <activity
-            android:name="com.shura.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
