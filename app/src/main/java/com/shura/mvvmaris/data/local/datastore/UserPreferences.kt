@@ -5,15 +5,19 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.shura.mvvmaris.di.DefaultDispatcher
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 import javax.inject.Inject
 
 
 class UserPreferences @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
+    @DefaultDispatcher private val coroutineDispatcher: CoroutineDispatcher
 ) : DataPreference<String> {
 
     companion object PreferencesKeys {
@@ -29,11 +33,11 @@ class UserPreferences @Inject constructor(
                 } else throw it
             }.map { preferences ->
                 preferences[KEY_NAME] ?: ""
-            }
+            }.flowOn(coroutineDispatcher)
 
-    override suspend fun saveData( name: String) {
+    override suspend fun saveData(data: String) {
         dataStore.edit { mutablePreference ->
-            mutablePreference[KEY_NAME] = name
+            mutablePreference[KEY_NAME] = data
         }
     }
 }
