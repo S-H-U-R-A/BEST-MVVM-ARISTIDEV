@@ -3,20 +3,21 @@ package com.shura.mvvmaris
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shura.mvvmaris.data.local.datastore.UserPreferences
+import com.shura.mvvmaris.di.IoDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 
 @HiltViewModel
 class PruebaDataStoreViewModel @Inject constructor(
-    private val  userPreferences: UserPreferences
+    private val  userPreferences: UserPreferences,
+    @IoDispatcher private val  coroutineDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private var _uiState: MutableStateFlow<MainUiState> = MutableStateFlow(MainUiState())
@@ -27,7 +28,7 @@ class PruebaDataStoreViewModel @Inject constructor(
         getUserPreferences()
     }
 
-    fun getUserPreferences(){
+    private fun getUserPreferences(){
 
         _uiState.update { uiState ->
             uiState.copy(
@@ -37,7 +38,7 @@ class PruebaDataStoreViewModel @Inject constructor(
 
         try {
 
-            viewModelScope.launch( Dispatchers.IO ) {
+            viewModelScope.launch {
                 userPreferences.data.collect{ namePreference ->
 
                     _uiState.update { uiState ->
@@ -62,7 +63,7 @@ class PruebaDataStoreViewModel @Inject constructor(
     }
 
     fun saveUserPreference(name: String){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             userPreferences.saveData(name)
         }
     }
