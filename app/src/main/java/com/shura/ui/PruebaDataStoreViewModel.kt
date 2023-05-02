@@ -63,7 +63,7 @@ class PruebaDataStoreViewModel @Inject constructor(
     }
 
     fun saveUserPreference(name: String){
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineDispatcher) {
             userPreferences.saveData(name)
         }
     }
